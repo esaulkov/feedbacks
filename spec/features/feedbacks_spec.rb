@@ -16,14 +16,12 @@ feature "Send feedback" do
     end
 
     scenario "User sends feedback" do
-      expect do
-        fill_in "Message", with: feedback.message
-        click_button "Send"
-      end.to change { Feedback.count }.by(1)
+      fill_in "Message", with: feedback.message
+      expect { click_button "Send" }.to change(Feedback, :count).by(1)
 
-      expect(page).to have_content('Your message was successfully delivered. Thank you!')
+      expect(page).to have_content("Your message was successfully delivered. Thank you!")
 
-      open_email(ENV['ADMIN_EMAIL'])
+      open_email(ENV["ADMIN_EMAIL"])
 
       expect(current_email).to have_subject("New feedback")
       expect(current_email).to have_body_text(feedback.message)
@@ -36,29 +34,25 @@ feature "Send feedback" do
     end
 
     scenario "Fields are blank" do
-      expect(page).to have_field("Username", '')
-      expect(page).to have_field("Email", '')
+      expect(page).to have_field("Username", "")
+      expect(page).to have_field("Email", "")
     end
 
     scenario "User doesn't fill username field" do
-      expect do
-        fill_in "Email", with: feedback.email
-        fill_in "Message", with: feedback.message
-        click_button "Send"
-      end.to_not change { Feedback.count }
+      fill_in "Email", with: feedback.email
+      fill_in "Message", with: feedback.message
+      expect { click_button "Send" }.not_to change(Feedback, :count)
 
-      expect(page).to_not have_content('Your message was successfully delivered. Thank you!')
+      expect(page).not_to have_content("Your message was successfully delivered. Thank you!")
       expect(page).to have_content("can't be blank")
     end
 
     scenario "User doesn't fill email field" do
-      expect do
-        fill_in "Username", with: feedback.username
-        fill_in "Message", with: feedback.message
-        click_button "Send"
-      end.to_not change { Feedback.count }
+      fill_in "Username", with: feedback.username
+      fill_in "Message", with: feedback.message
+      expect { click_button "Send" }.not_to change(Feedback, :count)
 
-      expect(page).to_not have_content('Your message was successfully delivered. Thank you!')
+      expect(page).not_to have_content("Your message was successfully delivered. Thank you!")
       expect(page).to have_content("can't be blank")
     end
   end

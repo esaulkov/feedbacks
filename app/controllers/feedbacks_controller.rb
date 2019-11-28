@@ -10,13 +10,13 @@ class FeedbacksController < ApplicationController
 
     if @feedback.save
       send_email_to_admin
-      redirect_to new_feedback_url, notice: 'Your message was successfully delivered. Thank you!'
+      redirect_to new_feedback_url, notice: "Your message was successfully delivered. Thank you!"
     else
       render :new
     end
   end
 
-private
+  private
 
   def feedback_params
     params.require(:feedback).permit(:username, :email, :message)
