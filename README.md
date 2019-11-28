@@ -48,4 +48,4 @@ bin/server
 
 ## Production
 
-* http://.herokuapp.com
+* https://arcane-thicket-19176.herokuapp.com/
