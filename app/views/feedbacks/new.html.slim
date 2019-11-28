@@ -1,0 +1,14 @@
+.row
+  .columns
+    h2 = title("New feedback")
+
+.row
+  .medium-5.columns
+    = simple_form_for @feedback do |f|
+      .form-inputs
+        = f.input :username, required: true, autofocus: true
+        = f.input :email, required: true
+        = f.input :message, as: :text, input_html: { rows: 5, maxlength: 1200 }
+
+      .form-actions
+        = f.button :submit, "Send"
