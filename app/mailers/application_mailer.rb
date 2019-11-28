@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'no-reply@feedbacks-staging.herokuapp.com'
+  default from: ENV['MAILER_SENDER_ADDRESS']
   layout "mailer"
 end
